@@ -1,5 +1,5 @@
 <template>
-  <div class="me-slider">
+  <div class="me-slider" :key="keyId">
     <!-- <swiper :options="swiperOption">
       <swiper-slide v-for="item in sliderList" :key="item.picUrl">
         <img class="swiper-img" :src="item.picUrl" alt="">
@@ -40,6 +40,10 @@ export default {
     pagination: {
       type: Boolean,
       default: true
+    },
+    data: {
+      type: Array,
+      default: () => []
     }
   },
   components: {
@@ -47,18 +51,35 @@ export default {
   },
   data () {
     return {
-      swiperOption: {
+      keyId: Math.random()
+    }
+  },
+  watch: {
+    data (newData) {
+      if (newData.length === 0) {
+        return
+      }
+      this.swiperOption.loop = newData.length <= 1 ? false : this.loop
+      this.keyId = Math.random()
+    }
+  },
+  methods: {
+    init () {
+      this.swiperOption = {
         watchOverflow: true, // 当没有足够的slide切换时，例如只有1个slide（非loop），swiper会失效且隐藏导航等。默认不开启这个功能。
         direction: this.direction,
         autoplay: this.interval ? {
           delay: this.interval
         } : false,
-        loop: this.loop,
+        loop: this.data.length <= 1 ? false : this.loop, // 一张图片时关闭
         pagination: {
           el: this.pagination ? '.swiper-pagination' : null
         }
       }
     }
+  },
+  created () {
+    this.init()
   }
 }
 </script>

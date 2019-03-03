@@ -15,6 +15,7 @@ export default (url, data, options) => {
     jsonp(url, options, (err, data) => {
       if (!err) {
         if (data) {
+          // 这里的code是接口定义的，具体根据请求的接口各异，很多接口的成功code为0
           if (data.code === '200') {
             resolve(data)
           } else {

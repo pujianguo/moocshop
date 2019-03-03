@@ -4,15 +4,20 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import fastclick from 'fastclick'
+import VueLazyLoad from 'vue-lazyload'
 
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 
 import './assets/styles/index.less'
 import 'swiper/dist/css/swiper.css'
 
-// Vue.use(VueAwesomeSwiper /* { default global options } */)
-
 fastclick.attach(document.body)
+
+// Vue.use(VueAwesomeSwiper /* { default global options } */)
+Vue.use(VueLazyLoad, {
+  error: require('./assets/images/error.png'),
+  loading: require('./assets/images/loading.gif')
+})
 
 Vue.config.productionTip = false
 
